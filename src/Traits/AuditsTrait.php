@@ -61,12 +61,12 @@ trait AuditsTrait
         if (! $data['result']) {
             return false;
         }
-        log_message("error", print_r($data, true));  // debug only
+        $fieldNames = implode(', ', array_keys($data['data']));
         $audit = [
             'source'    => $this->table,
             'source_id' => $this->db->insertID(), // @phpstan-ignore-line
             'event'     => 'insert',
-            'summary'   => count($data['data']) . ' fields',
+            'summary'   => count($data['data']) . ' fields: ' . $fieldNames,
         ];
         service('audits')->add($audit);
 
@@ -76,13 +76,13 @@ trait AuditsTrait
     // record successful update events
     protected function auditUpdate(array $data)
     {
-        log_message("error", print_r($data, true));  // debug only
+        $fieldNames = implode(', ', array_keys($data['data']));
         foreach ($data['id'] as $sourceId) {
             $audit = [
                 'source'    => $this->table,
                 'source_id' => $sourceId,
                 'event'     => 'update',
-                'summary'   => count($data['data']) . ' fields',
+                'summary'   => count($data['data']) . ' fields: ' . $fieldNames,
             ];
             service('audits')->add($audit);
         }
