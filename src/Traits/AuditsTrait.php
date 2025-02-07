@@ -61,7 +61,7 @@ trait AuditsTrait
         if (! $data['result']) {
             return false;
         }
-
+        log_message("error", print_r($data, true));  // debug only
         $audit = [
             'source'    => $this->table,
             'source_id' => $this->db->insertID(), // @phpstan-ignore-line
@@ -76,6 +76,7 @@ trait AuditsTrait
     // record successful update events
     protected function auditUpdate(array $data)
     {
+        log_message("error", print_r($data, true));  // debug only
         foreach ($data['id'] as $sourceId) {
             $audit = [
                 'source'    => $this->table,
