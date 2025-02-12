@@ -1,10 +1,5 @@
 # Bgeneto\Audits
-Lightweight object logging for CodeIgniter 4
-
-[![](https://github.com/bgenetosoftware/ci4-audits/workflows/PHPUnit/badge.svg)](https://github.com/bgenetosoftware/ci4-audits/actions/workflows/phpunit.yml)
-[![](https://github.com/bgenetosoftware/ci4-audits/workflows/PHPStan/badge.svg)](https://github.com/bgenetosoftware/ci4-audits/actions/workflows/phpstan.yml)
-[![](https://github.com/bgenetosoftware/ci4-audits/workflows/Deptrac/badge.svg)](https://github.com/bgenetosoftware/ci4-audits/actions/workflows/deptrac.yml)
-[![Coverage Status](https://coveralls.io/repos/github/bgenetosoftware/ci4-audits/badge.svg?branch=develop)](https://coveralls.io/github/bgenetosoftware/ci4-audits?branch=develop)
+Lightweight audit logging for CodeIgniter 4
 
 ## Quick Start
 
@@ -75,9 +70,8 @@ for those events:
 
 The Audits library will create basic logs of each event in the `audits` table, for example:
 
-```
-| id | source | source_id | user_id | event  | summary  |          created_at |
-+----+--------+-----------+---------+--------+----------+---------------------+
-| 10 | sites  |        27 |       9 | create | 2 rows   | 2019-04-05 15:58:40 |
-| 11 | jobs   |        10 |       9 | update | 5 rows   | 2019-04-05 16:01:35 |
-```
+| id   | source | source_id | user_id | event  | summary               | created_at          |
+| ---- | ------ | --------- | ------- | ------ | --------------------- | ------------------- |
+| 10   | sites  | 27        | 9       | create | 2 fields: name, phone | 2024-04-05 15:58:40 |
+| 11   | jobs   | 11        | 8       | update | 1 fields: description | 2024-04-05 16:01:35 |
+
