@@ -1,6 +1,6 @@
 {
-    "name": "tatter/audits",
-    "description": "Lightweight object logging for CodeIgniter 4",
+    "name": "bgeneto/audits",
+    "description": "Lightweight audit logging for CodeIgniter 4",
     "license": "MIT",
     "type": "library",
     "keywords": [
@@ -12,25 +12,25 @@
     ],
     "authors": [
         {
-            "name": "Matthew Gatner",
-            "email": "mgatner@tattersoftware.com",
-            "homepage": "https://tattersoftware.com",
+            "name": "Bernhard Enders",
+            "email": "bgeneto@gmail.com",
+            "homepage": "https://github.com/bgeneto",
             "role": "Developer"
         }
     ],
-    "homepage": "https://github.com/tattersoftware/codeigniter4-audits",
+    "homepage": "https://github.com/bgeneto/ci4-audits",
     "require": {
         "php": "^7.4 || ^8.0"
     },
     "require-dev": {
-        "codeigniter4/framework": "^4.1",
-        "tatter/tools": "^2.0"
+        "codeigniter4/devkit": "*",
+        "codeigniter4/framework": "^4.1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Tatter\\Audits\\": "src"
+            "Bgeneto\\Audits\\": "src"
         },
         "exclude-from-classmap": [
             "**/Database/Migrations/**"
@@ -49,10 +49,16 @@
     },
     "scripts": {
         "analyze": [
-            "phpstan analyze",
-            "psalm"
+            "phpstan analyze"
         ],
         "ci": [
+            "Composer\\Config::disableProcessTimeout",
+            "@deduplicate",
+            "@analyze",
+            "rector process",
+            "@style"
+        ],
+        "ci-full": [
             "Composer\\Config::disableProcessTimeout",
             "@deduplicate",
             "@analyze",
@@ -61,11 +67,19 @@
             "rector process",
             "@style"
         ],
+        "cs": [
+            "Composer\\Config::disableProcessTimeout",
+            "php-cs-fixer fix --ansi --verbose --dry-run --diff"
+        ],
+        "cs-fix": [
+            "Composer\\Config::disableProcessTimeout",
+            "php-cs-fixer fix --ansi"
+        ],
         "deduplicate": "phpcpd app/ src/",
         "inspect": "deptrac analyze --cache-file=build/deptrac.cache",
         "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
         "retool": "retool",
-        "style": "php-cs-fixer fix --verbose --ansi --using-cache=no",
+        "style": "@cs-fix",
         "test": "phpunit"
     }
 }

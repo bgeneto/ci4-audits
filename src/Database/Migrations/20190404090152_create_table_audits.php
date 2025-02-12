@@ -1,6 +1,6 @@
 <?php
 
-namespace Tatter\Audits\Database\Migrations;
+namespace Bgeneto\Audits\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 

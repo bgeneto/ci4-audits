@@ -1,8 +1,8 @@
 <?php
 
-namespace Tatter\Audits\Traits;
+namespace Bgeneto\Audits\Traits;
 
-use Tatter\Audits\Models\AuditModel;
+use Bgeneto\Audits\Models\AuditModel;
 
 // CLASS
 trait AuditsTrait
@@ -22,7 +22,7 @@ trait AuditsTrait
      */
     public function getAudits(array $objects, $events = null): array
     {
-        if (empty($objects)) {
+        if ($objects === []) {
             return [];
         }
 
@@ -40,6 +40,7 @@ trait AuditsTrait
 
         // Index by objectId, event
         $array = [];
+
         // @phpstan-ignore-next-line
         while ($audit = $query->getUnbufferedRow()) {
             if (empty($array[$audit->{$this->primaryKey}])) {
@@ -62,7 +63,7 @@ trait AuditsTrait
             return false;
         }
         $fieldNames = implode(', ', array_keys($data['data']));
-        $audit = [
+        $audit      = [
             'source'    => $this->table,
             'source_id' => $this->db->insertID(), // @phpstan-ignore-line
             'event'     => 'insert',
@@ -77,6 +78,7 @@ trait AuditsTrait
     protected function auditUpdate(array $data)
     {
         $fieldNames = implode(', ', array_keys($data['data']));
+
         foreach ($data['id'] as $sourceId) {
             $audit = [
                 'source'    => $this->table,

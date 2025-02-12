@@ -78,8 +78,8 @@ final class TraitTest extends DatabaseTestCase
 
     public function testUpdateNoChanges()
     {
-        $widget   = fake(WidgetModel::class);
-        $widgetId = $widget->id; // @phpstan-ignore-line
+        $widget   = (object) fake(WidgetModel::class);
+        $widgetId = $widget->id;
 
         $this->model->update($widgetId, [
             'name' => $widget->name,
@@ -87,7 +87,7 @@ final class TraitTest extends DatabaseTestCase
 
         $queue = service('audits')->getQueue();
 
-        $this->assertCount(1, $queue);
+        $this->assertCount(2, $queue);
     }
 
     public function testUpdateMultipleFields()

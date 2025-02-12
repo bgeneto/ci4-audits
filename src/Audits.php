@@ -1,26 +1,22 @@
 <?php
 
-namespace Tatter\Audits;
+namespace Bgeneto\Audits;
 
-use Tatter\Audits\Config\Audits as AuditsConfig;
-use Tatter\Audits\Models\AuditModel;
+use Bgeneto\Audits\Config\Audits as AuditsConfig;
+use Bgeneto\Audits\Models\AuditModel;
 
 // CLASS
 class Audits
 {
     /**
      * Our configuration instance.
-     *
-     * @var AuditsConfig
      */
-    protected $config;
+    protected AuditsConfig $config;
 
     /**
      * Audit rows waiting to add to the database.
-     *
-     * @var array
      */
-    protected $queue = [];
+    protected array $queue = [];
 
     /**
      * Store the configuration
@@ -45,7 +41,11 @@ class Audits
             return 0;
         }
 
-        return user_id() ?? session($this->config->sessionUserId) ?? 0;
+        if (function_exists('user_id')) {
+            return user_id();
+        }
+
+        return session($this->config->sessionUserId) ?? 0;
     }
 
     /**
@@ -63,7 +63,7 @@ class Audits
      */
     public function add(?array $audit = null)
     {
-        if (empty($audit)) {
+        if ($audit === null || $audit === []) {
             return false;
         }
 
@@ -81,7 +81,7 @@ class Audits
      */
     public function save(): self
     {
-        if (! empty($this->queue)) {
+        if ($this->queue !== []) {
             $audits = new AuditModel();
             $audits->insertBatch($this->queue);
         }

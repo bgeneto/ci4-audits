@@ -10,7 +10,7 @@
 *
 ***/
 
-class Audits extends \Tatter\Audits\Config\Audits
+class Audits extends \Bgeneto\Audits\Config\Audits
 {
 	// Session key in that contains the integer ID of a logged in user
 	public $sessionUserId = "logged_in";

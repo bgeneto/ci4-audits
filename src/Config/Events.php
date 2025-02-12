@@ -1,6 +1,6 @@
 <?php
 
-namespace Tatter\Audits\Config;
+namespace Bgeneto\Audits\Config;
 
 use CodeIgniter\Events\Events;
 

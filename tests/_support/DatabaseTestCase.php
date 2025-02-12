@@ -2,12 +2,12 @@
 
 namespace Tests\Support;
 
+use Bgeneto\Audits\Audits;
+use Bgeneto\Audits\Config\Audits as AuditsConfig;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\Fabricator;
 use Config\Services;
-use Tatter\Audits\Audits;
-use Tatter\Audits\Config\Audits as AuditsConfig;
 use Tests\Support\Models\WidgetModel;
 
 /**

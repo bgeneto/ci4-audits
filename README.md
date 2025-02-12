@@ -1,19 +1,19 @@
-# Tatter\Audits
+# Bgeneto\Audits
 Lightweight object logging for CodeIgniter 4
 
-[![](https://github.com/tattersoftware/codeigniter4-audits/workflows/PHPUnit/badge.svg)](https://github.com/tattersoftware/codeigniter4-audits/actions/workflows/phpunit.yml)
-[![](https://github.com/tattersoftware/codeigniter4-audits/workflows/PHPStan/badge.svg)](https://github.com/tattersoftware/codeigniter4-audits/actions/workflows/phpstan.yml)
-[![](https://github.com/tattersoftware/codeigniter4-audits/workflows/Deptrac/badge.svg)](https://github.com/tattersoftware/codeigniter4-audits/actions/workflows/deptrac.yml)
-[![Coverage Status](https://coveralls.io/repos/github/tattersoftware/codeigniter4-audits/badge.svg?branch=develop)](https://coveralls.io/github/tattersoftware/codeigniter4-audits?branch=develop)
+[![](https://github.com/bgenetosoftware/ci4-audits/workflows/PHPUnit/badge.svg)](https://github.com/bgenetosoftware/ci4-audits/actions/workflows/phpunit.yml)
+[![](https://github.com/bgenetosoftware/ci4-audits/workflows/PHPStan/badge.svg)](https://github.com/bgenetosoftware/ci4-audits/actions/workflows/phpstan.yml)
+[![](https://github.com/bgenetosoftware/ci4-audits/workflows/Deptrac/badge.svg)](https://github.com/bgenetosoftware/ci4-audits/actions/workflows/deptrac.yml)
+[![Coverage Status](https://coveralls.io/repos/github/bgenetosoftware/ci4-audits/badge.svg?branch=develop)](https://coveralls.io/github/bgenetosoftware/ci4-audits?branch=develop)
 
 ## Quick Start
 
-1. Install with Composer: `> composer require tatter/audits`
+1. Install with Composer: `> composer require bgeneto/audits`
 2. Update the database: `> php spark migrate --all`
 3. Set up your models:
 
 ```php
-use Tatter\Audits\Traits\AuditsTrait;
+use Bgeneto\Audits\Traits\AuditsTrait;
 
 class JobModel extends Model
 {
@@ -32,7 +32,7 @@ Provides ready-to-use object logging for CodeIgniter 4
 Install easily via Composer to take advantage of CodeIgniter 4's autoloading capabilities
 and always be up-to-date:
 ```console
-> composer require tatter/audits
+> composer require bgeneto/audits
 ```
 
 Or, install manually by downloading the source files and adding the directory to
@@ -57,7 +57,7 @@ specify which models and events to audit. Use AuditsTrait to add support to any 
 you would like tracked:
 
 ```php
-use Tatter\Audits\Traits\AuditsTrait;
+use Bgeneto\Audits\Traits\AuditsTrait;
 
 class JobModel extends Model
 {

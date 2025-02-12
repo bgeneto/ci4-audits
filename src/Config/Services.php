@@ -1,10 +1,10 @@
 <?php
 
-namespace Tatter\Audits\Config;
+namespace Bgeneto\Audits\Config;
 
+use Bgeneto\Audits\Audits;
+use Bgeneto\Audits\Config\Audits as AuditsConfig;
 use Config\Services as BaseServices;
-use Tatter\Audits\Audits;
-use Tatter\Audits\Config\Audits as AuditsConfig;
 
 class Services extends BaseServices
 {
@@ -15,7 +15,7 @@ class Services extends BaseServices
         }
 
         // If no config was injected then load one
-        if (empty($config)) {
+        if (! $config instanceof AuditsConfig) {
             $config = config('Audits');
         }
 

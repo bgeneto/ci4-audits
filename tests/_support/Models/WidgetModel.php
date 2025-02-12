@@ -2,9 +2,9 @@
 
 namespace Tests\Support\Models;
 
+use Bgeneto\Audits\Traits\AuditsTrait;
 use CodeIgniter\Model;
 use Faker\Generator;
-use Tatter\Audits\Traits\AuditsTrait;
 
 class WidgetModel extends Model
 {
