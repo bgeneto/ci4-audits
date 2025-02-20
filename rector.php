@@ -98,6 +98,11 @@ return static function (RectorConfig $rectorConfig): void {
 
         // May load view files directly when detecting classes
         StringClassNameToClassConstantRector::class,
+
+        // Skip TypedPropertyFromAssignsRector to avoid conflict with PHPStan on inherited properties
+        TypedPropertyFromAssignsRector::class => [
+            __DIR__ . '/src', // Or be more specific if needed, e.g., just commands directory
+        ],
     ]);
 
     // auto import fully qualified class names
@@ -126,16 +131,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(TernaryEmptyArrayArrayDimFetchToCoalesceRector::class);
     $rectorConfig->rule(EmptyOnNullableObjectToInstanceOfRector::class);
     $rectorConfig->rule(DisallowedEmptyRuleFixerRector::class);
-    $rectorConfig
-        ->ruleWithConfiguration(TypedPropertyFromAssignsRector::class, [
-            /**
-             * The INLINE_PUBLIC value is default to false to avoid BC break,
-             * if you use for libraries and want to preserve BC break, you don't
-             * need to configure it, as it included in LevelSetList::UP_TO_PHP_74
-             * Set to true for projects that allow BC break
-             */
-            TypedPropertyFromAssignsRector::INLINE_PUBLIC => true,
-        ]);
     $rectorConfig->rule(StringClassNameToClassConstantRector::class);
     $rectorConfig->rule(PrivatizeFinalClassPropertyRector::class);
     $rectorConfig->rule(CompleteDynamicPropertiesRector::class);
