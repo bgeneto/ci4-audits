@@ -68,6 +68,7 @@ trait AuditsTrait
             'source_id' => $this->db->insertID(), // @phpstan-ignore-line
             'event'     => 'insert',
             'summary'   => count($data['data']) . ' fields: ' . $fieldNames,
+            'data'      => null,
         ];
         service('audits')->add($audit);
 
@@ -85,6 +86,7 @@ trait AuditsTrait
                 'source_id' => $sourceId,
                 'event'     => 'update',
                 'summary'   => count($data['data']) . ' fields: ' . $fieldNames,
+                'data'      => null,
             ];
             service('audits')->add($audit);
         }
@@ -106,6 +108,7 @@ trait AuditsTrait
             'source'  => $this->table,
             'event'   => 'delete',
             'summary' => ($data['purge']) ? 'purge' : 'soft',
+            'data'    => null,
         ];
 
         // add an entry for each ID
@@ -117,5 +120,18 @@ trait AuditsTrait
         }
 
         return $data;
+    }
+
+    // record event with method, class (with namespace) where it was called
+    protected function auditEvent(string $event, string $summary, array $data = [])
+    {
+        $audit = [
+            'source'    => get_class($this),
+            'source_id' => null,
+            'event'     => $event,
+            'summary'   => $summary,
+            'data'      => json_encode($data),
+        ];
+        service('audits')->add($audit);
     }
 }

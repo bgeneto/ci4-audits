@@ -15,6 +15,7 @@ class Migration_create_table_audits extends Migration
             'user_id'    => ['type' => 'int', 'unsigned' => true, 'null' => true],
             'event'      => ['type' => 'varchar', 'constraint' => 31],
             'summary'    => ['type' => 'varchar', 'constraint' => 255],
+            'data'       => ['type' => 'json', 'null' => true],
             'created_at' => ['type' => 'datetime', 'null' => true],
         ];
 
