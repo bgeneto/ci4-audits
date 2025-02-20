@@ -15,5 +15,5 @@ class AuditModel extends Model
     protected bool $useTimestamps  = false;
     protected bool $useSoftDeletes = false;
     protected bool $skipValidation = true;
-    protected array $allowedFields = ['source', 'source_id', 'user_id', 'event', 'summary', 'created_at'];
+    protected array $allowedFields = ['source', 'source_id', 'user_id', 'event', 'summary', 'created_at', 'data'];
 }
