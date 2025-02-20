@@ -27,14 +27,14 @@ trait AuditsTrait
         }
 
         // Get the primary keys from the objects
-        $objectIds = array_column($objects, $this->primaryKey);
+        $objectIds = \array_column($objects, $this->primaryKey);
 
         // Start the query
-        $query = model(AuditModel::class)->builder()->where('source', $this->table)->whereIn('source_id', $objectIds);
+        $query = \model(AuditModel::class)->builder()->where('source', $this->table)->whereIn('source_id', $objectIds);
 
-        if (is_string($events)) {
+        if (\is_string($events)) {
             $query = $query->where('event', $events);
-        } elseif (is_array($events)) {
+        } elseif (\is_array($events)) {
             $query = $query->whereIn('event', $events);
         }
 
@@ -62,15 +62,15 @@ trait AuditsTrait
         if (! $data['result']) {
             return false;
         }
-        $fieldNames = implode(', ', array_keys($data['data']));
+        $fieldNames = \implode(', ', \array_keys($data['data']));
         $audit      = [
             'source'    => $this->table,
             'source_id' => $this->db->insertID(), // @phpstan-ignore-line
             'event'     => 'insert',
-            'summary'   => count($data['data']) . ' fields: ' . $fieldNames,
+            'summary'   => \count($data['data']) . ' fields: ' . $fieldNames,
             'data'      => null,
         ];
-        service('audits')->add($audit);
+        \service('audits')->add($audit);
 
         return $data;
     }
@@ -78,17 +78,17 @@ trait AuditsTrait
     // record successful update events
     protected function auditUpdate(array $data)
     {
-        $fieldNames = implode(', ', array_keys($data['data']));
+        $fieldNames = \implode(', ', \array_keys($data['data']));
 
         foreach ($data['id'] as $sourceId) {
             $audit = [
                 'source'    => $this->table,
                 'source_id' => $sourceId,
                 'event'     => 'update',
-                'summary'   => count($data['data']) . ' fields: ' . $fieldNames,
+                'summary'   => \count($data['data']) . ' fields: ' . $fieldNames,
                 'data'      => null,
             ];
-            service('audits')->add($audit);
+            \service('audits')->add($audit);
         }
 
         return $data;
@@ -112,7 +112,7 @@ trait AuditsTrait
         ];
 
         // add an entry for each ID
-        $audits = service('audits');
+        $audits = \service('audits');
 
         foreach ($data['id'] as $id) {
             $audit['source_id'] = $id;
@@ -120,18 +120,5 @@ trait AuditsTrait
         }
 
         return $data;
-    }
-
-    // record event with method, class (with namespace) where it was called
-    protected function auditEvent(string $event, string $summary, array $data = [])
-    {
-        $audit = [
-            'source'    => get_class($this),
-            'source_id' => null,
-            'event'     => $event,
-            'summary'   => $summary,
-            'data'      => json_encode($data),
-        ];
-        service('audits')->add($audit);
     }
 }

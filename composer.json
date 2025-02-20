@@ -58,15 +58,6 @@
             "rector process",
             "@style"
         ],
-        "ci-full": [
-            "Composer\\Config::disableProcessTimeout",
-            "@deduplicate",
-            "@analyze",
-            "@test",
-            "@inspect",
-            "rector process",
-            "@style"
-        ],
         "cs": [
             "Composer\\Config::disableProcessTimeout",
             "php-cs-fixer fix --ansi --verbose --dry-run --diff"

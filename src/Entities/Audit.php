@@ -8,10 +8,10 @@ use CodeIgniter\Entity\Entity;
 
 class Audit extends Entity
 {
-    protected string $table      = 'audits';
-    protected string $primaryKey = 'id';
-    protected array $dates       = ['created_at'];
-    protected array $casts       = [
+    protected $table      = 'audits';
+    protected $primaryKey = 'id';
+    protected $dates      = ['created_at'];
+    protected $casts      = [
         'source_id' => 'int',
         'user_id'   => 'int',
     ];

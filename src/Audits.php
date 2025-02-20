@@ -31,21 +31,21 @@ class Audits
     /**
      * Checks the session for a logged in user based on config
      *
-     * @return int The current user ID, 0 for "not logged in", -1 for CLI
+     * @return int The current user ID, 0 for "not logged in" or for CLI
      *
      * @deprecated This will be removed in the next major release; use codeigniter4/authentication-implementation
      */
     public function sessionUserId(): int
     {
-        if (is_cli()) {
+        if (\is_cli()) {
             return 0;
         }
 
-        if (function_exists('user_id')) {
-            return user_id();
+        if (\function_exists('user_id')) {
+            return \user_id();
         }
 
-        return session($this->config->sessionUserId) ?? 0;
+        return \session($this->config->sessionUserId) ?? 0;
     }
 
     /**
@@ -61,7 +61,7 @@ class Audits
      *
      * @param array|null $audit The row to cache for insert
      */
-    public function add(?array $audit = null)
+    public function add(?array $audit = null): bool
     {
         if ($audit === null || $audit === []) {
             return false;
@@ -69,9 +69,11 @@ class Audits
 
         // Add common data
         $audit['user_id']    = $this->sessionUserId(); // @phpstan-ignore-line
-        $audit['created_at'] = date('Y-m-d H:i:s');
+        $audit['created_at'] = \date('Y-m-d H:i:s');
 
         $this->queue[] = $audit;
+
+        return true;
     }
 
     /**
@@ -87,5 +89,25 @@ class Audits
         }
 
         return $this;
+    }
+
+    /**
+     * record event with method, class (with namespace) where it was called
+     */
+    public static function auditData(array $data = [], string $summary = 'None'): void
+    {
+        $audit = [
+            'source_id' => 0,
+            'event'     => \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'] ?? 'Unknown',
+            'summary'   => $summary,
+            'data'      => \json_encode($data),
+        ];
+
+        $trace           = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+        $audit['source'] = $trace[1]['class'] ?? 'Unknown';
+
+        $audits = new Audits(new AuditsConfig());
+        $audits->add($audit);
+        $audits->save();
     }
 }

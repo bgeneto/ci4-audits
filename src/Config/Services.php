@@ -16,7 +16,7 @@ class Services extends BaseServices
 
         // If no config was injected then load one
         if (! $config instanceof AuditsConfig) {
-            $config = config('Audits');
+            $config = \config('Audits');
         }
 
         return new Audits($config);

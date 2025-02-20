@@ -10,17 +10,19 @@ class Migration_create_table_audits extends Migration
     {
         // audit logs
         $fields = [
-            'source'     => ['type' => 'varchar', 'constraint' => 63],
-            'source_id'  => ['type' => 'int', 'unsigned' => true],
-            'user_id'    => ['type' => 'int', 'unsigned' => true, 'null' => true],
-            'event'      => ['type' => 'varchar', 'constraint' => 31],
-            'summary'    => ['type' => 'varchar', 'constraint' => 255],
-            'data'       => ['type' => 'json', 'null' => true],
-            'created_at' => ['type' => 'datetime', 'null' => true],
+            'id'        => ['type' => 'int', 'unsigned' => true, 'auto_increment' => true],
+            'source'    => ['type' => 'varchar', 'constraint' => 63],
+            'source_id' => ['type' => 'int', 'unsigned' => true],
+            'user_id'   => ['type' => 'int', 'unsigned' => true, 'null' => true],
+            'event'     => ['type' => 'varchar', 'constraint' => 31],
+            'summary'   => ['type' => 'varchar', 'constraint' => 255],
+            'data'      => ['type' => 'json', 'null' => true],
         ];
 
-        $this->forge->addField('id');
         $this->forge->addField($fields);
+        $this->forge->addField('created_at DATETIME NOT NULL DEFAULT current_timestamp()');
+
+        $this->forge->addPrimaryKey('id');
 
         $this->forge->addKey(['source', 'source_id', 'event']);
         $this->forge->addKey(['user_id', 'source', 'event']);
