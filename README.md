@@ -1,9 +1,9 @@
 # Bgeneto\Audits
-Lightweight audit logging for CodeIgniter 4
+Simple and lightweight audit logging for CodeIgniter 4
 
 ## Quick Start
 
-1. Install with Composer: `> composer require bgeneto/audits`
+1. Install with Composer: `> composer require bgeneto/ci4-audits`
 2. Update the database: `> php spark migrate --all`
 3. Set up your models:
 
@@ -27,7 +27,7 @@ Provides ready-to-use object logging for CodeIgniter 4
 Install easily via Composer to take advantage of CodeIgniter 4's autoloading capabilities
 and always be up-to-date:
 ```console
-> composer require bgeneto/audits
+> composer require bgeneto/ci4-audits
 ```
 
 Or, install manually by downloading the source files and adding the directory to
@@ -74,13 +74,13 @@ The Audits library will create basic logs of each event in the `audits` table, f
 | 11   | jobs   | 11        | 8       | update | 1 fields: description | (NULL) | 2024-04-05 16:01:35 |
 
 
-You can also add custom data/array (as json) to your audits by calling the `logEvent` static method anywhere in your code:
+If you want to log arbitrary data you can use the `logEvent` static method anywhere in your code:
 
 ```php
     Audits::logEvent($formData, "Profile data changed");
 ```
 
-The library will record the event in the `audits` table with the class and methods that called it, for example:
+The library will record the data (as json) in the `audits` table with the class and method names that called it, for example:
 
 | id   | source                       | source_id | user_id | event  | summary               | data                                     | created_at          |
 | ---- | ---------------------------- | --------- | ------- | ------ | --------------------- | ---------------------------------------- | ------------------- |

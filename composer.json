@@ -1,6 +1,6 @@
 {
     "name": "bgeneto/ci4-audits",
-    "description": "Lightweight audit logging for CodeIgniter 4",
+    "description": "Simple and lightweight audit logging for CodeIgniter 4",
     "license": "MIT",
     "type": "library",
     "keywords": [
