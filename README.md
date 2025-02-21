@@ -13,9 +13,9 @@ use Bgeneto\Audits\Traits\AuditsTrait;
 class JobModel extends Model
 {
 	use AuditsTrait;
-	protected $afterInsert = ['auditInsert'];
-	protected $afterUpdate = ['auditUpdate'];
-	protected $afterDelete = ['auditDelete'];
+
+    // just configure the events/callbacks you want to audit
+    $this->setAuditsCallbacks(['afterInsert', 'afterUpdate', 'afterDelete']);
 ```
 
 ## Features
@@ -63,15 +63,26 @@ Then specify which events you want audited by assigning the corresponding audit 
 for those events:
 
 ```php
-	protected $afterInsert = ['auditInsert'];
-	protected $afterUpdate = ['auditUpdate'];
-	protected $afterDelete = ['auditDelete'];
+	$this->setAuditsCallbacks(['afterInsert', 'afterUpdate', 'afterDelete']);
 ```
 
 The Audits library will create basic logs of each event in the `audits` table, for example:
 
-| id   | source | source_id | user_id | event  | summary               | created_at          |
-| ---- | ------ | --------- | ------- | ------ | --------------------- | ------------------- |
-| 10   | sites  | 27        | 9       | create | 2 fields: name, phone | 2024-04-05 15:58:40 |
-| 11   | jobs   | 11        | 8       | update | 1 fields: description | 2024-04-05 16:01:35 |
+| id   | source | source_id | user_id | event  | summary               | data   | created_at          |
+| ---- | ------ | --------- | ------- | ------ | --------------------- | -----  | ------------------- |
+| 10   | sites  | 27        | 9       | create | 2 fields: name, phone | (NULL) | 2024-04-05 15:58:40 |
+| 11   | jobs   | 11        | 8       | update | 1 fields: description | (NULL) | 2024-04-05 16:01:35 |
 
+
+You can also add custom data/array (as json) to your audits by calling the `logEvent` static method anywhere in your code:
+
+```php
+    Audits::logEvent($formData, "Profile data changed");
+```
+
+The library will record the event in the `audits` table with the class and methods that called it, for example:
+
+| id   | source                       | source_id | user_id | event  | summary               | data                                     | created_at          |
+| ---- | ---------------------------- | --------- | ------- | ------ | --------------------- | ---------------------------------------- | ------------------- |
+| 12   | App\Controllers\User\Profile | 0         | 2       | update | Profile data changed  | {"name":"Foo Bar"}                       | 2024-04-06 10:59:01 |
+| 13   | App\Controllers\Login        | 0         | 3       | action | User Logged in        | {"user":"Foo Bar","email":"foo@bar.com"} | 2024-04-06 11:00:05 |
