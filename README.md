@@ -1,4 +1,5 @@
-# Bgeneto\Audits
+# ci4-audits
+
 Simple and lightweight audit logging for CodeIgniter 4
 
 ## Quick Start
