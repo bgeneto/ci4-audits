@@ -94,7 +94,7 @@ class Audits
     /**
      * record event with method, class (with namespace) where it was called
      */
-    public static function auditData(array $data = [], string $summary = 'None'): void
+    public static function logEvent(array $data = [], string $summary = 'None'): void
     {
         $audit = [
             'source_id' => 0,
@@ -106,8 +106,9 @@ class Audits
         $trace           = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
         $audit['source'] = $trace[1]['class'] ?? 'Unknown';
 
-        $audits = new Audits(new AuditsConfig());
-        $audits->add($audit);
-        $audits->save();
+        // $audits = new Audits(new AuditsConfig());
+        // $audits->add($audit);
+        \service('audits')->add($audit);
+        // $audits->save();
     }
 }

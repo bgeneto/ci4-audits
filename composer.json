@@ -36,11 +36,6 @@
             "**/Database/Migrations/**"
         ]
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\Support\\": "tests/_support"
-        }
-    },
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true,
