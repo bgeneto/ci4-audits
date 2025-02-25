@@ -6,6 +6,7 @@ use Bgeneto\Audits\Config\Audits as AuditsConfig;
 use Bgeneto\Audits\Models\AuditModel;
 
 // CLASS
+/** @package Bgeneto\Audits */
 class Audits
 {
     /**
@@ -91,11 +92,23 @@ class Audits
         return $this;
     }
 
+
     /**
-     * record event with method, class (with namespace) where it was called
+     * Logs an event using the provided data.
+     *
+     * @param string|object|array $data
+     * @param string $summary
+     * @return void
      */
-    public static function logEvent(array $data = [], string $summary = 'None'): void
+    public static function logEvent(string|object|array $data, string $summary = ''): void
     {
+        // ensure data is an array
+        if (is_string($data)) {
+            $data = ['value' => $data];
+        } elseif (is_object($data)) {
+            $data = (array) $data;
+        }
+
         $audit = [
             'source_id' => 0,
             'event'     => \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'] ?? 'Unknown',
@@ -106,9 +119,6 @@ class Audits
         $trace           = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
         $audit['source'] = $trace[1]['class'] ?? 'Unknown';
 
-        // $audits = new Audits(new AuditsConfig());
-        // $audits->add($audit);
         \service('audits')->add($audit);
-        // $audits->save();
     }
 }

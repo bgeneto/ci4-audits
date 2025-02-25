@@ -11,11 +11,11 @@ class Migration_create_table_audits extends Migration
         // audit logs
         $fields = [
             'id'        => ['type' => 'int', 'unsigned' => true, 'auto_increment' => true],
-            'source'    => ['type' => 'varchar', 'constraint' => 63],
+            'source'    => ['type' => 'varchar', 'constraint' => 127],
             'source_id' => ['type' => 'int', 'unsigned' => true],
             'user_id'   => ['type' => 'int', 'unsigned' => true, 'null' => true],
-            'event'     => ['type' => 'varchar', 'constraint' => 31],
-            'summary'   => ['type' => 'varchar', 'constraint' => 255],
+            'event'     => ['type' => 'varchar', 'constraint' => 63],
+            'summary'   => ['type' => 'varchar', 'constraint' => 254],
             'data'      => ['type' => 'json', 'null' => true],
         ];
 

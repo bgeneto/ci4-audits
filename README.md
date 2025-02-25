@@ -15,8 +15,12 @@ class JobModel extends Model
 {
 	use AuditsTrait;
 
-    // just configure the events/callbacks you want to audit
-    $this->setAuditsCallbacks(['afterInsert', 'afterUpdate', 'afterDelete']);
+    // Configure event auditing callbacks by using either the class constructor or the model's initialize() method.
+    protected function initialize(): void
+    {
+        parent::initialize();
+    	$this->setAuditsCallbacks(['afterInsert', 'afterUpdate', 'afterDelete']);
+    }
 ```
 
 ## Features
@@ -60,11 +64,14 @@ class JobModel extends Model
 	use AuditsTrait;
 ```
 
-Then specify which events you want audited by assigning the corresponding audit methods
-for those events:
+Then specify which events you want audited by assigning the corresponding audit methods for those events in the constructor (or `initialize()`):
 
 ```php
-	$this->setAuditsCallbacks(['afterInsert', 'afterUpdate', 'afterDelete']);
+public function __construct()
+{
+    parent::__construct();
+	$this->setAuditsCallbacks(['afterInsert', 'afterUpdate', 'afterDelete']);    
+}
 ```
 
 The Audits library will create basic logs of each event in the `audits` table, for example:
@@ -78,12 +85,18 @@ The Audits library will create basic logs of each event in the `audits` table, f
 If you want to log arbitrary data you can use the `logEvent` static method anywhere in your code:
 
 ```php
-    Audits::logEvent($formData, "Profile data changed");
+use Bgeneto\Audits\Audits;
+
+$formData = [
+    'name'       => 'John Doe'
+];
+
+Audits::logEvent($formData, "Profile data changed");
 ```
 
 The library will record the data (as json) in the `audits` table with the class and method names that called it, for example:
 
-| id   | source                       | source_id | user_id | event  | summary               | data                                     | created_at          |
-| ---- | ---------------------------- | --------- | ------- | ------ | --------------------- | ---------------------------------------- | ------------------- |
-| 12   | App\Controllers\User\Profile | 0         | 2       | update | Profile data changed  | {"name":"Foo Bar"}                       | 2024-04-06 10:59:01 |
-| 13   | App\Controllers\Login        | 0         | 3       | action | User Logged in        | {"user":"Foo Bar","email":"foo@bar.com"} | 2024-04-06 11:00:05 |
+| id   | source                       | source_id | user_id | event  | summary              | data                                     | created_at          |
+| ---- | ---------------------------- | --------- | ------- | ------ | -------------------- | ---------------------------------------- | ------------------- |
+| 12   | App\Controllers\User\Profile | 0         | 2       | update | Profile data changed | {"name":"John Doe"}                      | 2024-04-06 10:59:01 |
+| 13   | App\Controllers\Login        | 0         | 3       | action | User Logged in       | {"user":"Foo Bar","email":"foo@bar.com"} | 2024-04-06 11:00:05 |

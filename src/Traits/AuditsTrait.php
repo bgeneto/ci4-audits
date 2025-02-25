@@ -5,7 +5,10 @@ namespace Bgeneto\Audits\Traits;
 use Bgeneto\Audits\Models\AuditModel;
 use RuntimeException;
 
-// CLASS
+
+/**
+ * AuditsTrait
+ */
 trait AuditsTrait
 {
     /**
@@ -90,6 +93,9 @@ trait AuditsTrait
     // record successful update events
     protected function auditUpdateCallback(array $data)
     {
+        log_message("error", "========> auditUpdateCallback data");  // debug only
+        log_message("error", print_r($data, true));  // debug only
+
         $fieldNames = \implode(', ', \array_keys($data['data']));
 
         foreach ($data['id'] as $sourceId) {
