@@ -96,6 +96,18 @@ trait AuditsTrait
         log_message("error", "========> auditUpdateCallback data");  // debug only
         log_message("error", print_r($data, true));  // debug only
 
+        if (empty($data['id'])) {
+            $builder = $this->builder();
+            $ids = (clone $builder)
+                ->select($this->primaryKey)
+                ->get()
+                ->getResultArray();
+
+            $updatedIds = array_column($ids, $this->primaryKey);
+            log_message("error", "====> updatedIds");  // debug only
+            log_message("error", print_r($updatedIds, true));  // debug only
+        }
+
         $fieldNames = \implode(', ', \array_keys($data['data']));
 
         foreach ($data['id'] as $sourceId) {
