@@ -5,7 +5,6 @@ namespace Bgeneto\Audits\Traits;
 use Bgeneto\Audits\Models\AuditModel;
 use RuntimeException;
 
-
 /**
  * AuditsTrait
  */
@@ -93,19 +92,10 @@ trait AuditsTrait
     // record successful update events
     protected function auditUpdateCallback(array $data)
     {
-        log_message("error", "========> auditUpdateCallback data");  // debug only
-        log_message("error", print_r($data, true));  // debug only
-
+        // TODO: check how to get the updated ids in the case that update() method is
+        //       called without args (maybe using where and set).
         if (empty($data['id'])) {
-            $builder = $this->builder();
-            $ids = (clone $builder)
-                ->select($this->primaryKey)
-                ->get()
-                ->getResultArray();
-
-            $updatedIds = array_column($ids, $this->primaryKey);
-            log_message("error", "====> updatedIds");  // debug only
-            log_message("error", print_r($updatedIds, true));  // debug only
+            return false;
         }
 
         $fieldNames = \implode(', ', \array_keys($data['data']));
