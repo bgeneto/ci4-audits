@@ -43,7 +43,7 @@ class Audits
         }
 
         if (\function_exists('user_id')) {
-            return \user_id();
+            return \user_id() ?? 0;
         }
 
         return \session($this->config->sessionUserId) ?? 0;
